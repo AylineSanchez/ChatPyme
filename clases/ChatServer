@@ -1,0 +1,31 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class ChatServer {
+    public static void main(String[] args) {
+        int port = 12345; // Puerto en el que escuchará el servidor
+        ServerSocket serverSocket = null;
+
+        try {
+            serverSocket = new ServerSocket(port);
+            System.out.println("Servidor de chat en línea. Esperando conexiones...");
+
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                // Manejar la conexión del cliente en un hilo separado.
+                new ClientHandler(clientSocket).start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (serverSocket != null) {
+                    serverSocket.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+public class ChatApp extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Centro de Salud - Chat");
+
+        // Elementos de la pantalla principal del usuario
+        BorderPane root = new BorderPane();
+
+        // Área de chat principal
+        TextArea chatArea = new TextArea();
+        chatArea.setEditable(false);
+        chatArea.setWrapText(true);
+
+        // Campo de mensaje
+        TextField messageField = new TextField();
+        messageField.setPromptText("Escribe tu mensaje aquí...");
+
+        // Botón para enviar mensajes
+        Button sendButton = new Button("Enviar");
+        sendButton.setDefaultButton(true); // Permite enviar con Enter
+
+        // Botones de formateo de texto
+        Button boldButton = new Button("Negrita");
+        Button italicButton = new Button("Cursiva");
+        Button underlineButton = new Button("Subrayado");
+
+        // Botón para iniciar conversación privada
+        Button privateChatButton = new Button("Conversación Privada");
+
+        // Botón para enviar mensaje urgente
+        Button urgentButton = new Button("Mensaje Urgente");
+
+        // Barra de herramientas para los botones de formateo
+        HBox formattingToolbar = new HBox(boldButton, italicButton, underlineButton);
+
+        // Barra de herramientas para los botones de acción
+        HBox actionToolbar = new HBox(messageField, sendButton, privateChatButton, urgentButton);
+
+        // Agregar elementos a la interfaz gráfica
+        root.setCenter(chatArea);
+        root.setBottom(actionToolbar);
+        root.setTop(formattingToolbar);
+
+        Scene scene = new Scene(root, 800, 600);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}

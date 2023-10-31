@@ -1,0 +1,29 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class InicioSesion extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Iniciar Sesión");
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Rut");
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("Clave");
+        Button loginButton = new Button("Iniciar Sesión");
+        Hyperlink forgotPasswordLink = new Hyperlink("¿Olvidaste tu clave?");
+
+        VBox vbox = new VBox(usernameField, passwordField, loginButton, forgotPasswordLink);
+        Scene scene = new Scene(vbox, 300, 200);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}

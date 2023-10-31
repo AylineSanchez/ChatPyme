@@ -1,0 +1,64 @@
+import java.io.*;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Usuario extends Thread {
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private User user; // Clase User que contiene detalles del usuario
+
+    // Mapa para rastrear las salas de chat según la categoría
+    private static Map<String, ChatRoom> chatRooms = new HashMap<>();
+
+    public ClientHandler(Socket socket) {
+        this.clientSocket = socket;
+        try {
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void run() {
+        try {
+            String message;
+            while ((message = in.readLine()) != null) {
+                // Procesar y enrutar mensajes a las salas de chat adecuadas
+                // Implementa la lógica para dividir los mensajes en las categorías correspondientes
+                if (message.startsWith("Médico:")) {
+                    ChatRoom medicalRoom = getChatRoomByCategory("Médico");
+                    medicalRoom.sendMessage(user.getUsername(), message);
+                } else if (message.startsWith("Administrativo:")) {
+                    ChatRoom adminRoom = getChatRoomByCategory("Administrativo");
+                    adminRoom.sendMessage(user.getUsername(), message);
+                }
+                // ... Agrega lógica para otras categorías como "Personal de Aseo", "Administrador", etc.
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void sendMessage(String message) {
+        out.println(message);
+    }
+
+    public static ChatRoom getChatRoomByCategory(String category) {
+        // Crea una sala de chat si no existe
+        chatRooms.putIfAbsent(category, new ChatRoom(category));
+        return chatRooms.get(category);
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

@@ -1,0 +1,43 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class Principal extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Chat del Usuario");
+
+        TextArea chatTextArea = new TextArea();
+        TextField messageField = new TextField();
+        Button sendButton = new Button("Enviar");
+        Button clearButton = new Button("Limpiar Chat");
+        Button privateChatButton = new Button("Iniciar Conversación Privada");
+
+        // Botones para formateo de texto
+        Button boldButton = new Button("Negrita");
+        Button italicButton = new Button("Itálica");
+        Button underlineButton = new Button("Subrayado");
+
+        // Botón para enviar mensajes urgentes
+        Button urgentButton = new Button("Mensaje Urgente");
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(chatTextArea);
+
+        // Agregar botones de formateo y mensaje urgente en la parte inferior
+        HBox bottomBox = new HBox(messageField, sendButton, clearButton, boldButton, italicButton, underlineButton, urgentButton);
+        borderPane.setBottom(bottomBox);
+        borderPane.setRight(privateChatButton);
+
+        Scene scene = new Scene(borderPane, 600, 400);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}
